@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  usedockercomposewithpostgressqlandredis:
+    image: ${DOCKER_REGISTRY-}usedockercomposewithpostgressqlandredis
+    container_name: usedockercomposewithpostgressqlandredis
+    build:
+      context: .
+      dockerfile: UseDockerComposeWithPostgresSqlAndRedis/Dockerfile
+    ports:
+      - "80"
+      - "443"
+
+
+  prosucts.database:
+    image: postgres:latest
+    container_name: prosucts.database
+    environment:
+      - POSTGRES_DB=product
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/products-db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  prosucts.cash:
+    image: redis:latest
+    ports:
+      - '6379:6379' 
