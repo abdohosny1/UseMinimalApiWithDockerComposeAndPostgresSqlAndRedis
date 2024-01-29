@@ -37,39 +37,15 @@ namespace UseDockerComposeWithPostgresSqlAndRedis.Endpoints
             app.MapGet("products", async (
                ApplicationDbContext dbContext,
                CancellationToken cte
-               //int page,
-               //int pageSize
                ) => {
-
-                  // page = 1; pageSize = 10;
                    var products = await dbContext.Products
                        .AsNoTracking()
-                       //.Skip((page - 1) * pageSize)
-                       //.Take(pageSize)
                        .ToListAsync(cte);
                    return Results.Ok(products);
                });
 
 
-            //app.MapGet("products/{id}", async (int id, ApplicationDbContext dbContext,
-            //    IDistributedCache cache, CancellationToken ct) =>
-            //{
-            //    var product = await cache.GetAsync($"products-{id}",
-            //        async token =>
-            //        {
-            //            var productFromDb = await dbContext.Products
-            //                .AsNoTracking()
-            //                .FirstOrDefaultAsync(p => p.Id == id, token);
-            //            return productFromDb;
-            //        },
-            //        new DistributedCacheEntryOptions
-            //        {
-            //            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(20),
-            //        },
-            //        ct);
-
-            //    return product is null ? Results.NotFound() : Results.Ok(product);
-            //});
+           
 
             app.MapGet("products/{id}", async (int id, ApplicationDbContext dbContext,
                   IDistributedCache cache, CancellationToken cancellationToken) =>
